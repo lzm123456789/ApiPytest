@@ -21,17 +21,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="ApiPytest" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ApiPytest" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -66,16 +56,17 @@
       <updated>1677999207737</updated>
       <workItem from="1677999208939" duration="405000" />
       <workItem from="1677999648585" duration="13000" />
+      <workItem from="1678000331053" duration="322000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="418000" />
+    <option name="totallyTimeSpent" value="740000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2532189" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25679544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -90,7 +81,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="SOQL Query" order="10" />
       <window_info anchor="bottom" id="Log Analyzer" order="11" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="12" visible="true" weight="0.3071253" />
+      <window_info anchor="bottom" id="Terminal" order="12" visible="true" weight="0.30589682" />
       <window_info anchor="bottom" id="Event Log" order="13" side_tool="true" />
       <window_info anchor="bottom" id="Anonymous Apex" order="14" />
       <window_info anchor="bottom" id="Python Console" order="15" />
