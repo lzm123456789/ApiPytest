@@ -1,0 +1,30 @@
+- basedatas:
+    host: pc #host名称需和配置文件里面设置的保持一致
+    module: #请求头的ModuleId（选填）
+    token: token #需用到的token，需conftest.py设置的保持一致
+    tempvars:
+      temp1: #临时变量名
+- testcasename: #测试用例名称
+  setupsql: #前置sql （选填）
+    r: #查询
+      db: user #数据库实例名称需和conftest里面设置的保持一致，查询的列名需和临时变量保持一致
+      sql: select id from user; #sql语句
+    cud: #增改删
+      db: user
+      sql: delete from user where name = 'test';
+  method: pc_json_post #请求的方法，需和base_api.py设置的保持一致
+  path: /clause-template/add #接口路由
+  data: #测试数据
+    arg1: 1
+    arg2: test1
+    arg3: test2
+    project_id: '&&project_id' #全局变量名需和config.ini里面设置的保持一致
+    arg4: '@@temp1' #临时变量名需和上方设置的保持一致
+  check: #预期结果
+    key: errmsg #接口返回的数据的键
+    value: 成功
+  savevar: #保存接口返回的数据 （选填）
+    temp1: id  #冒号左边的需和上方的临时变量名保持一致，冒号右边需和接口返回的数据的键保持一致
+  teardownsql: #后置sql （选填）
+    db: user
+    sql: delete from user where name = 'test'; #可以有多条sql用分号隔开

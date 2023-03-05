@@ -1,0 +1,52 @@
+- basedatas:
+    host: pc
+    module:
+    token: usera
+    tempvars:
+      temp1:
+- testcasename: 添加学生
+  method: post_json
+  path: /student/add/
+  data:
+    sno: 95666
+    name: 陈圆圆
+    gender: 女
+    birthday: '2000-11-01'
+    mobile: 18500000001
+    email: test@qq.com
+    address: 测试
+    image:
+  check:
+    key: code
+    value: 1
+- testcasename: 修改学生
+  method: post_json
+  path: /student/update/
+  data:
+    sno: 95666
+    name: 陈圆圆
+    gender: 女
+    birthday: '2000-11-01'
+    mobile: 18500000001
+    email: test@qq.com
+    address: 测试修改
+    image:
+  check:
+    key: code
+    value: 1
+- testcasename: 查询学生
+  method: get
+  path: /student/query/
+  data:
+    inputstr: 陈圆圆
+  check:
+    key: name
+    value: 陈圆圆
+- testcasename: 删除学生
+  method: post_json
+  path: /student/delete/
+  data:
+    sno: 95666
+  check:
+    key: code
+    value: 1
