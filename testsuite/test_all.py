@@ -2,10 +2,10 @@ import os
 import sys
 
 sys.path.append(os.path.split(os.path.abspath(os.path.dirname(__file__)))[0])
-from config.config import MyConfig
+from config.config import Config
 from common.utils import email_testreport, create_yamltest
 
-myconfig = MyConfig()
+myconfig = Config()
 receiver = myconfig.get_conf('email', 'receiver')
 
 # 根据yaml测试用例文件名生成可执行的py文件
@@ -19,7 +19,7 @@ for file in files:
 for yaml in yamls:
     create_yamltest(yaml)
 
-os.system("pytest -m 'not yamltest'")
+os.system("pytest")
 email_testreport(receiver=receiver, email_subject="全量接口层自动化测试")  # 调试的时候，注释这一行，避免发邮件
 # 执行完之后，删除按yaml生成的py文件
 for yaml in yamls:
