@@ -2,13 +2,13 @@ import os
 import sys
 
 sys.path.append(os.path.split(os.path.abspath(os.path.dirname(__file__)))[0])
-from log.log import MyLog
+from log.log import Log
 from datetime import datetime
-from config.config import MyConfig
+from config.config import Config
 from common.utils import email_testreport, wechat_send_testreport
 
-mylog = MyLog
-myconfig1 = MyConfig()
+mylog = Log
+myconfig1 = Config()
 
 mylog.info("""
 xx业务的核心接口：
@@ -29,7 +29,7 @@ else:
     os.system('pytest -m "alltest or yamltest" --reruns=3')
 
 # 重新实例化配置对象，获取最新的测试结果；否则上面的配置对象已经删除了测试结果，获取为空
-myconfig2 = MyConfig()
+myconfig2 = Config()
 testresult = myconfig2.get_conf('temp', 'testresult')
 receiver = myconfig2.get_conf('email', 'receiver')
 # 测试不通过，才发邮件

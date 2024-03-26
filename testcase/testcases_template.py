@@ -1,14 +1,13 @@
 import re
-import yaml
 import json
 import pytest
 import jsonpath
+from config.config import Config
 from common.utils import get_yaml
-from config.config import MyConfig
 from common.my_assert import Assert
 from common.common_xx import CommomForXX
 
-conf = MyConfig()
+conf = Config()
 myassert = Assert()
 xx = CommomForXX()
 

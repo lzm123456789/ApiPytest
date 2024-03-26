@@ -3,13 +3,13 @@ import sys
 import yaml
 import smtplib
 import requests
-from log.log import MyLog as log
-from config.config import MyConfig
+from log.log import Log as mylog
+from config.config import Config
 from email.header import Header
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-conf = MyConfig()
+conf = Config()
 email_server = conf.get_conf('email', 'email_server')
 username = conf.get_conf('email', 'username')
 password = conf.get_conf('email', 'password')
@@ -35,7 +35,7 @@ def get_yaml(yaml_file):
             f = yo.read()
             ld = yaml.load(f)
     except Exception as e:
-        log.error(f'获取yaml文件数据失败，具体原因：{e}')
+        mylog.error(f'获取yaml文件数据失败，具体原因：{e}')
     return ld
 
 
@@ -58,7 +58,7 @@ def update_file(filepath, oldstr, newstr):
         with open(filepath, "w", encoding="utf-8") as f:
             f.write(file_data)
     except Exception as e:
-        log.error(f'修改文件失败，具体原因：{e}')
+        mylog.error(f'修改文件失败，具体原因：{e}')
 
 
 def create_yamltest(yamlname):
@@ -78,7 +78,7 @@ def create_yamltest(yamlname):
         with open(filename, "w", encoding="utf-8") as f:
             f.write(file_data)
     except Exception as e:
-        log.error(f'创建基于yaml执行的测试用例失败，具体原因：{e}')
+        mylog.error(f'创建基于yaml执行的测试用例失败，具体原因：{e}')
 
 
 def email_testreport(reportpath=reportpath,
@@ -96,7 +96,7 @@ def email_testreport(reportpath=reportpath,
     :param password:
     :param email_subject:
     :param sender:
-    :param receiver: 多个收件人需用空格隔开
+    :param receiver: 多个收件人需用逗号隔开
     :return:
     """
 
@@ -112,7 +112,7 @@ def email_testreport(reportpath=reportpath,
         #  定义邮件发送人
         mail['From'] = sender
         #  定义邮件接收人
-        mail['To'] = ','.join(receiver.split(' '))
+        mail['To'] = receiver
 
         # 构造邮件的正文
         mail_text = MIMEText(content, 'html', 'utf-8')
@@ -135,12 +135,12 @@ def email_testreport(reportpath=reportpath,
         # 邮件登录
         smtp.login(username, password)
         # 邮件发送
-        smtp.sendmail(mail['From'], receiver.split(' '), mail.as_string())
+        smtp.sendmail(mail['From'], receiver.split(','), mail.as_string())
         # 断开SMTP连接
         smtp.quit()
-        log.info("邮件发送测试报告成功～")
+        mylog.info("邮件发送测试报告成功")
     except Exception as e:
-        log.error(f"邮件发送测试报告失败，具体原因: {e}")
+        mylog.error(f"邮件发送测试报告失败，具体原因: {e}")
 
 
 def wechat_send_testreport(key, projectname, total, passrate, success, fail, skip, error, reportpath=reportpath):
@@ -186,13 +186,13 @@ def wechat_send_testreport(key, projectname, total, passrate, success, fail, ski
         # 发送测试概况
         resp = requests.post(url=sendurl, json=data1, verify=False)
         if resp.json()['errcode'] != 0:
-            log.error(f"发送测试概况失败，具体原因：{resp.json()['errmsg']}")
+            mylog.error(f"发送测试概况失败，具体原因：{resp.json()['errmsg']}")
             sys.exit(0)
         # 上传测试报告附件
         filedata = {'media': open(reportpath, 'rb')}
         resp = requests.post(url=uploadurl, files=filedata, verify=False)
         if resp.json()['errcode'] != 0:
-            log.error(f"上传测试报告附件失败，具体原因：{resp.json()['errmsg']}")
+            mylog.error(f"上传测试报告附件失败，具体原因：{resp.json()['errmsg']}")
             sys.exit(0)
         media_id = resp.json()['media_id']
         data2 = {
@@ -202,11 +202,6 @@ def wechat_send_testreport(key, projectname, total, passrate, success, fail, ski
         # 发送测试报告附件
         resp = requests.post(url=sendurl, json=data2, verify=False)
         if resp.json()['errcode'] != 0:
-            log.error(f"发送测试报告附件失败，具体原因：{resp.json()['errmsg']}")
+            mylog.error(f"发送测试报告附件失败，具体原因：{resp.json()['errmsg']}")
     except Exception as e:
-        log.error(f"企业微信发送测试报告失败，具体原因: {e}")
-
-
-if __name__ == '__main__':
-    # email_testreport()
-    create_yamltest('contract.yaml')
+        mylog.error(f"企业微信发送测试报告失败，具体原因: {e}")

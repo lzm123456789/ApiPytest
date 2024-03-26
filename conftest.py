@@ -2,16 +2,16 @@ import pytest
 from py._xmlgen import html
 from datetime import datetime
 from config import config as myconfig
-from common.base_api import MyRequest
+from common.base_request import BaseRequest
 
-conf = myconfig.MyConfig()
+conf = myconfig.Config()
 
 
 @pytest.fixture(scope='session')
 def myrequest():
     """实例化请求对象"""
 
-    return MyRequest()
+    return BaseRequest()
 
 
 @pytest.fixture(scope='session')
@@ -33,8 +33,18 @@ def temp():
     """获取临时变量（文件传参）"""
 
     # 重新实例化配置对象，保证能读取到最新的值
-    conf = myconfig.MyConfig()
+    conf = myconfig.Config()
     return conf.get_section_dict('temp')
+
+
+@pytest.fixture(scope='function')
+def newconfig():
+    """
+    重新实例化配置对象，用于修改配置文件
+    """
+
+    conf = myconfig.Config()
+    return conf
 
 
 def pytest_collection_modifyitems(items):
@@ -107,19 +117,19 @@ def env(pytestconfig):
 
 # 收集测试结果
 def pytest_terminal_summary(terminalreporter):
-    conf = myconfig.MyConfig()
+    conf = myconfig.Config()
     passed = len([i for i in terminalreporter.stats.get('passed', []) if i.when != 'teardown'])
     failed = len([i for i in terminalreporter.stats.get('failed', []) if i.when != 'teardown'])
     error = len([i for i in terminalreporter.stats.get('error', []) if i.when != 'teardown'])
     skipped = len([i for i in terminalreporter.stats.get('skipped', []) if i.when != 'teardown'])
     total = passed + failed + error + skipped
-    successful = len(terminalreporter.stats.get('passed', [])) / total * 100
+    passrate = passed / (passed + failed + error) * 100
     conf.set_conf('temp', 'total', total)
     conf.set_conf('temp', 'passed', passed)
     conf.set_conf('temp', 'failed', failed)
     conf.set_conf('temp', 'error', error)
     conf.set_conf('temp', 'skipped', skipped)
-    conf.set_conf('temp', 'successful', '%.2f%%' % successful)
+    conf.set_conf('temp', 'passrate', '%.2f%%' % passrate)
     if failed + error == 0:
         conf.set_conf('temp', 'testresult', 'success')
     else:

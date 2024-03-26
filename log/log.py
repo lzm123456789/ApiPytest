@@ -31,23 +31,23 @@ def create_file(filename):
 
 def set_handler(levels):
     if levels in ['error', 'critical']:
-        logger.addHandler(MyLog.err_handler)
-    logger.addHandler(MyLog.handler)
-    logger.addHandler(MyLog.console)
+        logger.addHandler(Log.err_handler)
+    logger.addHandler(Log.handler)
+    logger.addHandler(Log.console)
 
 
 def remove_handler(levels):
     if levels in ['error', 'critical']:
-        logger.removeHandler(MyLog.err_handler)
-    logger.removeHandler(MyLog.handler)
-    logger.removeHandler(MyLog.console)
+        logger.removeHandler(Log.err_handler)
+    logger.removeHandler(Log.handler)
+    logger.removeHandler(Log.console)
 
 
 def get_current_time():
-    return time.strftime(MyLog.date, time.localtime(time.time()))
+    return time.strftime(Log.date, time.localtime(time.time()))
 
 
-class MyLog:
+class Log:
     path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     log_file = path + '/Log/log.log'
     err_file = path + '/Log/err.log'
@@ -94,8 +94,8 @@ class MyLog:
 
 
 if __name__ == "__main__":
-    MyLog.debug("This is debug message")
-    MyLog.info("This is info message")
-    MyLog.warning("This is warning message")
-    MyLog.error("This is error")
-    MyLog.critical("This is critical message")
+    Log.debug("This is debug message")
+    Log.info("This is info message")
+    Log.warning("This is warning message")
+    Log.error("This is error")
+    Log.critical("This is critical message")

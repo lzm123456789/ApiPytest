@@ -1,9 +1,8 @@
-# coding=utf-8
 import os
 from configparser import RawConfigParser
 
 
-class MyConfig:
+class Config:
 
     def __init__(self):
         curr_path = os.path.dirname(os.path.realpath(__file__))
@@ -57,9 +56,3 @@ class MyConfig:
         """判断节下的选项是否存在"""
 
         return self.config.has_option(title, value)
-
-
-if __name__ == '__main__':
-    conf = MyConfig()
-    confdict = conf.get_section_dict('env')
-    print(confdict)

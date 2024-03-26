@@ -2,12 +2,12 @@ import os
 import sys
 
 sys.path.append(os.path.split(os.path.abspath(os.path.dirname(__file__)))[0])
-from log.log import MyLog
-from config.config import MyConfig
+from log.log import Log
+from config.config import Config
 from common.utils import update_file, email_testreport
 
-mylog = MyLog
-myconfig1 = MyConfig()
+mylog = Log
+myconfig1 = Config()
 
 yamlname = sys.argv[1]
 
@@ -18,7 +18,7 @@ os.system('pytest testcase/testcases_template.py')
 update_file('testcase/testcases_template.py', yamlname, 'TEMPLATE')
 
 # 重新实例化配置对象，获取最新的测试结果；否则上面的配置对象已经删除了测试结果，获取为空
-myconfig2 = MyConfig()
+myconfig2 = Config()
 testresult = myconfig2.get_conf('temp', 'testresult')
 receiver = myconfig2.get_conf('email', 'receiver')
 # 测试不通过，才发邮件

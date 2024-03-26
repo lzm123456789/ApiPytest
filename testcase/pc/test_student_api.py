@@ -6,7 +6,7 @@ myassert = Assert()
 
 @pytest.mark.smoketest
 @pytest.mark.run(order=1)
-def test_add_student_api(myrequest, hosts,clean_testdata):
+def test_add_student_api(myrequest, hosts, clean_testdata):
     """添加学生"""
 
     url = f"{hosts['pc']}/student/add/"
@@ -20,7 +20,7 @@ def test_add_student_api(myrequest, hosts,clean_testdata):
         'address': '测试',
         'image': None
     }
-    resp = myrequest.post_json(url, '', data)
+    resp = myrequest.post_json(url, data, '')
     myassert.assert_code(resp[0])
     myassert.assert_equal(resp[1]['code'], 1)
 
@@ -41,7 +41,7 @@ def test_update_student_api(myrequest, hosts):
         "address": "测试修改",
         "image": None
     }
-    resp = myrequest.post_json(url, '', data)
+    resp = myrequest.post_json(url, data, '')
     myassert.assert_code(resp[0])
     myassert.assert_equal(resp[1]['code'], 1)
 
@@ -53,7 +53,7 @@ def test_query_student_api(myrequest, hosts):
 
     url = f"{hosts['pc']}/student/query/"
     data = {"inputstr": '陈圆圆'}
-    resp = myrequest.get(url, {}, data)
+    resp = myrequest.get(url, data, {})
     myassert.assert_code(resp[0])
     myassert.assert_equal(resp[1]['data'][0]['name'], '陈圆圆')
 
@@ -65,6 +65,6 @@ def test_delete_student_api(myrequest, hosts):
 
     url = f"{hosts['pc']}/student/delete/"
     data = {"sno": 95666}
-    resp = myrequest.post_json(url, '', data)
+    resp = myrequest.post_json(url, data, '')
     myassert.assert_code(resp[0])
     myassert.assert_equal(resp[1]['code'], 1)
